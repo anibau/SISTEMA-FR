@@ -40,4 +40,16 @@ export class UsersController {
   getMe(@Req() req) {
     return req.user;
   }
+
+  @Put('me')
+  @UseGuards(JwtAuthGuard)
+  updateMe(@Req() req, @Body() updateUserDto: UpdateUserDto) {
+    return this.usersService.updateProfile(req.user.userId, updateUserDto);
+  }
+
+  @Put('change-password')
+  @UseGuards(JwtAuthGuard)
+  async changePassword(@Req() req, @Body() body: { oldPassword: string; newPassword: string }) {
+    return this.usersService.changePassword(req.user.userId, body.oldPassword, body.newPassword);
+  }
 } 

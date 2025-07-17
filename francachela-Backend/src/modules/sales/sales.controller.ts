@@ -26,4 +26,19 @@ export class SalesController {
   complete(@Param('id') id: string, @Body() completeSaleDto: CompleteSaleDto) {
     return this.salesService.complete(+id, completeSaleDto);
   }
+
+  @Get('reports/daily')
+  async dailyReport() {
+    return this.salesService.getDailyReport();
+  }
+
+  @Get('reports/monthly')
+  async monthlyReport() {
+    return this.salesService.getMonthlyReport();
+  }
+
+  @Get('reports/top-products')
+  async topProducts() {
+    return this.salesService.getTopProducts();
+  }
 } 

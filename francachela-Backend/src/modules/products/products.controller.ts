@@ -12,9 +12,26 @@ export class ProductsController {
     return this.productsService.findAll();
   }
 
+  @Get('low-stock')
+  findLowStock() {
+    return this.productsService.findLowStock();
+  }
+
   @Post()
   create(@Body() createProductDto: CreateProductDto) {
     return this.productsService.create(createProductDto);
+  }
+
+  @Post('import')
+  importProducts() {
+    // Placeholder: lógica de importación desde Excel/CSV
+    return { message: 'Importación de productos (placeholder)' };
+  }
+
+  @Get('export')
+  exportProducts() {
+    // Placeholder: lógica de exportación a Excel/CSV
+    return { message: 'Exportación de productos (placeholder)' };
   }
 
   @Put(':id')

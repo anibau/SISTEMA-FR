@@ -6,6 +6,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcryptjs';
 import { OnModuleInit } from '@nestjs/common';
+import { BadRequestException } from '@nestjs/common';
 
 @Injectable()
 export class UsersService implements OnModuleInit {
@@ -47,5 +48,27 @@ export class UsersService implements OnModuleInit {
 
   async findByUsername(username: string) {
     return this.usersRepository.findOne({ where: { username } });
+  }
+
+  async updateProfile(id: number, updateUserDto: UpdateUserDto) {
+    // Solo permite actualizar email y password
+    const user = await this.usersRepository.findOne({ where: { id } });
+    if (!user) throw new BadRequestException('Usuario no encontrado');
+    if (updateUserDto.password) {
+      updateUserDto.password = await bcrypt.hash(updateUserDto.password, 10);
+    }
+    if (updateUserDto.email) user.email = updateUserDto.email;
+    if (updateUserDto.password) user.password = updateUserDto.password;
+    return this.usersRepository.save(user);
+  }
+
+  async changePassword(id: number, oldPassword: string, newPassword: string) {
+    const user = await this.usersRepository.findOne({ where: { id } });
+    if (!user) throw new BadRequestException('Usuario no encontrado');
+    const isMatch = await bcrypt.compare(oldPassword, user.password);
+    if (!isMatch) throw new BadRequestException('La contraseña anterior es incorrecta');
+    user.password = await bcrypt.hash(newPassword, 10);
+    await this.usersRepository.save(user);
+    return { message: 'Contraseña actualizada correctamente' };
   }
 } 

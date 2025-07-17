@@ -30,13 +30,6 @@ psql -U postgres
 -- Crear base de datos
 CREATE DATABASE francachela_db;
 
--- Conectar a la base de datos
-\c francachela_db
-
--- Ejecutar el esquema completo
-\i src/database/entities.sql
-```
-
 #### 1.4 Instalar dependencias del frontend
 ```bash
 cd francachela-liquor-hub
