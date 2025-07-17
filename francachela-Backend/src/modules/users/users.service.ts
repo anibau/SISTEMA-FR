@@ -22,6 +22,11 @@ export class UsersService implements OnModuleInit {
         { username: 'admin', password: await bcrypt.hash('admin123', 10), role: 'admin', email: 'admin@demo.com' },
         { username: 'vendedor', password: await bcrypt.hash('vendedor123', 10), role: 'vendedor', email: 'vendedor@demo.com' },
         { username: 'user', password: await bcrypt.hash('user123', 10), role: 'user', email: 'user@demo.com' },
+        { username: 'test1', password: await bcrypt.hash('test123', 10), role: 'user', email: 'test1@demo.com' },
+        { username: 'test2', password: await bcrypt.hash('test123', 10), role: 'vendedor', email: 'test2@demo.com' },
+        { username: 'test3', password: await bcrypt.hash('test123', 10), role: 'admin', email: 'test3@demo.com' },
+        { username: 'test4', password: await bcrypt.hash('test123', 10), role: 'user', email: 'test4@demo.com' },
+        { username: 'test5', password: await bcrypt.hash('test123', 10), role: 'vendedor', email: 'test5@demo.com' },
       ];
       for (const user of defaultUsers) {
         await this.usersRepository.save(user);

@@ -452,3 +452,139 @@ Para consultas técnicas durante el desarrollo:
 
 **¡Manos a la obra! 🚀**
 *El sistema Francachela está listo para ser desarrollado* 
+
+**PROMPT BACKEND**
+Genera el backend completo de una aplicación desacoplada para el sistema Francachela - Tu tienda de licores.
+
+🎯 OBJETIVO:
+Implementar una API RESTful completa y modular usando NestJS y PostgreSQL (con TypeORM), con autenticación JWT, organización por módulos funcionales, y todas las funcionalidades necesarias para gestionar una licorería moderna con POS táctil, delivery vía WhatsApp, promociones, multitickets y fidelización de clientes.
+
+🧱 TECNOLOGÍAS:
+- NestJS (con estructura modular por dominio)
+- PostgreSQL (via TypeORM)
+- Autenticación JWT
+- Swagger para documentación
+- Webhooks internos
+- Tests unitarios y e2e (mínimos en módulos clave)
+- Configuraciones dinámicas almacenadas en BD
+- CORS habilitado
+- Conexión externa habilitada para frontend React
+
+🗂️ MÓDULOS PRINCIPALES (separar cada uno como carpeta):
+
+1. **auth**
+   - Registro/Login con email y contraseña
+   - JWT para autenticación
+   - Roles: administrador, vendedor
+   - Middleware `RolesGuard`
+   - Logs de acceso y acciones sensibles
+
+2. **usuarios**
+   - CRUD de usuarios
+   - Roles y permisos
+   - Bitácora de acciones críticas
+
+3. **productos**
+   - CRUD de productos
+   - Flags: bonificado, habilita puntos
+   - Historial de cambios
+   - Búsqueda por nombre, código, categoría
+   - Carga masiva vía Excel
+   - Exportación a Excel
+
+4. **combos**
+   - CRUD de combos (paquetes de productos)
+   - Descuento automático del stock individual
+
+5. **promociones**
+   - Reglas por cantidad, monto, cumpleaños
+   - Válidas por rango de fechas
+   - Activación/desactivación dinámica
+   - Promos aplicables en POS y WhatsApp
+
+6. **ventas**
+   - Múltiples tickets activos por vendedor (multiticket persistente)
+   - CRUD de ventas
+   - Agregado por código, búsqueda
+   - Métodos de pago: efectivo, Yape, Plin, transferencia
+   - Registro de productos, promociones, cliente, puntos
+   - Tickets exportables
+
+7. **cierres-caja**
+   - Registro por turno
+   - Cálculo automático de totales, diferencias
+   - Historial y exportación
+
+8. **gastos**
+   - Registro por categoría (servicios, transporte, etc.)
+   - Exportación
+
+9. **clientes**
+   - Registro con validación por WhatsApp/DNI
+   - Puntos por compra
+   - Registro de fiados y pagos parciales
+   - Ranking por puntos o ventas
+
+10. **puntos**
+    - Configuración dinámica (puntos por monto)
+    - Cálculo automático
+    - Consulta individual por número
+
+11. **delivery**
+    - Flujo de pedido: preparación → en camino → entregado
+    - Pedido por WhatsApp
+    - Relación con venta en POS
+
+12. **catalogo**
+    - Endpoint público para catálogo
+    - Filtros: destacados, combos
+    - SEO básico
+
+13. **notificaciones**
+    - API para alertas internas (stock bajo, fiado vencido, cumpleaños)
+    - Envío de notificaciones por usuario (solo back por ahora)
+
+14. **webhooks**
+    - Eventos POST internos (ej. venta realizada, cliente registrado)
+    - Diseñado para integraciones futuras (Twilio, Google Drive)
+
+15. **configuraciones**
+    - Configuraciones globales editables desde backend (puntos por S/, promociones activas, etc.)
+    - CRUD y cache en memoria
+
+16. **auditoria**
+    - Bitácora de cambios: precios, stock, promociones, usuarios
+    - Logs accesos y acciones
+
+17. **documentacion**
+    - Swagger generado automáticamente (`/docs`)
+    - Endpoints públicos y protegidos visibles
+
+18. **tests**
+    - Mínimos unitarios para servicios clave (`ventas`, `productos`)
+    - Pruebas e2e base en `auth` y `ventas`
+
+📦 ESTRUCTURA:
+- Proyecto NestJS modular (estructura limpia, por dominio)
+- Separar DTOs, services, controllers y entidades
+- Swagger con tags por módulo
+- Middleware para logs, validaciones globales
+- Pipes para validaciones comunes
+- Guards para roles
+- Entidades sincronizadas y migraciones incluidas
+- Soporte para entorno `.env`
+
+🌍 CONEXIONES Y CONSIDERACIONES:
+- Permitir conexión desde frontend externo (React, origin configurable)
+- Puerto 3000 por defecto
+- Preparado para conexión futura con Supabase o Twilio
+
+🔒 SEGURIDAD:
+- Control por rol en rutas
+- Protección de endpoints sensibles
+- Validación de datos y sanitización
+
+📁 ENTREGABLE:
+- Backend NestJS completo, modularizado, con todos los endpoints y carpetas necesarias para funcionalidad total.
+- Endpoints funcionales y conectables con frontend desacoplado.
+
